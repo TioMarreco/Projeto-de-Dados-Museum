@@ -11,7 +11,8 @@ conn = p2.connect(
     dbname=dbname,        
     user=user,
     password=password,
-    port=port
+    port=port,
+    host=host,
 )
 
 
@@ -32,12 +33,11 @@ def Criar_Usuario():
     senha = input("Digite a senha: ")
 
     cur.execute(
-        "INSERT INTO users (usuario, senha) VALUES (%s, %s)",
+        "INSERT INTO Usuarios (usuario_nome, senha) VALUES (%s, %s)",
         (usuario, senha)
     )
 
-    conn.commit
-    cur.close
+    conn.commit()
 
 def Update_Usuario():
     usuario = input("Digite o nome do usuário que deseja atualizar: ")
@@ -45,38 +45,36 @@ def Update_Usuario():
     nova_senha = input("Digite a nova senha")
 
     cur.execute( 
-        "UPDATE users SET nova_senha = %s, novo_usuario = %s WHERE usuario = %s",
-        (nova_senha,usuario)
+        "UPDATE Usuarios SET senha = %s, usuario_nome = %s WHERE usuario_nome = %s",
+        (novo_usuario,nova_senha,usuario)
     )
 
-    conn.commit
-    cur.close
+    conn.commit()
     print("Usuário atualizada com sucesso")
 
 def Ler_Usuarios():
     cur.execute(
         "SELECT * FROM Usuarios"
-        )
+    )
     
     resultados = cur.fetchall()
     print("Resultados da consulta:")
     for linha in resultados:
     
-    print(f"- {linha}")
+        print(f"- {linha}")
 
-    cur.close
 
 def Deletar_Usuario():
     usuario = input("Digite o Usuário que deseja deletar: ")
 
     cur.execute(
-        "DELETE FROM Usuarios WHERE usuario = %s",
+        "DELETE FROM Usuarios WHERE usuario_nome = %s",
         (usuario,)
     )
 
-    conn.commit
-    cur.close
+    conn.commit()
 
     print("Usuário Deletado com sucesso!")
 
 
+cur.close()
