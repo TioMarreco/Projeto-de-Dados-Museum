@@ -20,13 +20,6 @@ conn.autocommit = True
     
 cur = conn.cursor()
 
-def Criar_Tabela():
-    cur.execute('''CREATE TABLE Estátuas(
-     estátua_nome VARCHAR(50) UNIQUE NOT NULL,
-        preço INT,
-        CONSTRAINT Estátuas_pk PRIMARY KEY (estátua_nome)
-    )''')
-
 
 def Criar_estátua():
     estátua = input("Digite o nome de usuário: ")

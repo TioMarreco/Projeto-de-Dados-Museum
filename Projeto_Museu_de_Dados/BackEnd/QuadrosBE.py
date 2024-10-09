@@ -19,14 +19,7 @@ conn = p2.connect(
 conn.autocommit = True
     
 cur = conn.cursor()
-
-def Criar_Tabela():
-    cur.execute('''CREATE TABLE Quadros(
-     quadro_nome VARCHAR(50) UNIQUE NOT NULL,
-        preço INT,
-        CONSTRAINT Quadros_pk PRIMARY KEY (quadro_nome)
-    )''')
-
+    
 
 def Criar_quadro():
     quadro = input("Digite o nome de usuário: ")

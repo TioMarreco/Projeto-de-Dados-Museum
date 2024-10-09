@@ -20,13 +20,6 @@ conn.autocommit = True
     
 cur = conn.cursor()
 
-def Criar_Tabela():
-    cur.execute('''CREATE TABLE Usuarios(
-     usuario_nome VARCHAR(50) UNIQUE NOT NULL,
-        senha VARCHAR (256) NOT NULL,
-        CONSTRAINT Usuarios_pk PRIMARY KEY (usuario_nome)
-    )''')
-
 
 def Criar_Usuario():
     usuario = input("Digite o nome de usuário: ")
