@@ -1,40 +1,34 @@
 import psycopg2 as p2
+from psycopg2 import sql
 
-dbname = '20221214010013'
-user = 'postgres'
-password = 'pabd'
-host = 'localhost'  # ou o endereço do servidor de banco de dados
-port = '5432'  # padrão para PostgreSQL
-
-
-conn = p2.connect(
-    dbname=dbname,        
-    user=user,
-    password=password,
-    port=port,
-    host=host,
-)
-
-
-conn.autocommit = True
-    
-cur = conn.cursor()
-
-def login():
-    
-    usuario = input("Usuário: ")
-    senha = input("Senha: ")
-
-    cur.execute ("SELECT * FROM Usuarios WHERE usuario_nome = %s AND senha = %s;" (usuario,senha))
-
-    resultado = cursor.fetchone()
-
-    if resultado:
-        print("Login bem-sucedido! Bem-vindo,", usuario)
-    else:
-        print("Usuário ou senha incorretos.")
-
-
-cur.close
-    
+def verificar_usuario_senha(usuario, senha):
+    try:
+        # Conexão com o banco de dados
+        conn = p2.connect(
+            dbname = '20221214010013'
+            user = 'postgres'
+            password = 'pabd'
+            host = 'localhost'  # ou o endereço do servidor de banco de dados
+            port = '5432'
+        )
+        cur = conn.cursor()
+        
+        # Consulta SQL
+        query = sql.SQL("SELECT * FROM usuarios WHERE usuario = %s AND senha = %s")
+        cur.execute(query, (usuario, senha))
+        
+        # Verifica se um resultado foi encontrado
+        resultado = cur.fetchone()
+        
+        cur.close()
+        conn.close()
+        
+        if resultado:
+            return True
+        else:
+            return False
+            
+    except Exception as e:
+        print(f"Erro ao conectar ao banco de dados: {e}")
+        return False
 
