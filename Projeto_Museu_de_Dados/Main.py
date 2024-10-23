@@ -22,6 +22,7 @@ def login():
 
         if user:
             messagebox.showinfo("Login", "Login bem-sucedido!")
+            abrir_tela_escolha()
         else:
             messagebox.showerror("Erro", "Usuário ou senha incorretos.")
 
@@ -29,6 +30,155 @@ def login():
         conn.close()
     except Exception as e:
         messagebox.showerror("Erro", f"Erro de conexão: {e}")
+
+# Função para abrir a tela de escolha entre Estátuas e Quadros
+def abrir_tela_escolha():
+    root.withdraw()  # Oculta a janela de login
+    tela_escolha = ctk.CTkToplevel(root)
+    tela_escolha.title("Escolha um Tipo")
+    
+    def abrir_tela_quadros():
+        tela_escolha.withdraw()
+        tela_quadros = ctk.CTkToplevel(tela_escolha)
+        tela_quadros.title("Gerenciar Quadros")
+
+        def adicionar_quadro():
+            def salvar_quadro():
+                quadro_nome = entry_quadro_nome.get()
+                preco = entry_preco.get()
+                try:
+                    cursor.execute("INSERT INTO Quadros (quadro_nome, preco) VALUES (%s, %s)", (quadro_nome, preco))
+                    conn.commit()
+                    messagebox.showinfo("Sucesso", "Quadro adicionado com sucesso!")
+                    entry_quadro_nome.delete(0, ctk.END)
+                    entry_preco.delete(0, ctk.END)
+                except Exception as e:
+                    messagebox.showerror("Erro", f"Erro ao adicionar quadro: {e}")
+
+        label_quadro_nome = ctk.CTkLabel(tela_quadros, text="Nome do Quadro:")
+        label_quadro_nome.pack(pady=5)
+
+        entry_quadro_nome = ctk.CTkEntry(tela_quadros)
+        entry_quadro_nome.pack(pady=5)
+
+        label_preco = ctk.CTkLabel(tela_quadros, text="Preço:")
+        label_preco.pack(pady=5)
+
+        entry_preco = ctk.CTkEntry(tela_quadros)
+        entry_preco.pack(pady=5)
+
+        button_salvar_quadro = ctk.CTkButton(tela_quadros, text="Adicionar Quadro", command=adicionar_quadro)
+        button_salvar_quadro.pack(pady=10)
+
+        def ver_quadros():
+            try:
+                cursor.execute("SELECT quadro_nome, preco FROM Quadros;")
+                quadros = cursor.fetchall()
+                quadros_lista = "\n".join([f"{q[0]} - R${q[1]}" for q in quadros])
+                messagebox.showinfo("Quadros", f"Quadros:\n{quadros_lista}")
+            except Exception as e:
+                messagebox.showerror("Erro", f"Erro ao ler quadros: {e}")
+
+        button_ver_quadros = ctk.CTkButton(tela_quadros, text="Ver Quadros", command=ver_quadros)
+        button_ver_quadros.pack(pady=10)
+
+        def remover_quadro():
+            def excluir_quadro():
+                quadro_nome = entry_quadro_remover.get()
+                try:
+                    cursor.execute("DELETE FROM Quadros WHERE quadro_nome=%s", (quadro_nome,))
+                    conn.commit()
+                    messagebox.showinfo("Sucesso", "Quadro removido com sucesso!")
+                    entry_quadro_remover.delete(0, ctk.END)
+                except Exception as e:
+                    messagebox.showerror("Erro", f"Erro ao remover quadro: {e}")
+
+            label_quadro_remover = ctk.CTkLabel(tela_quadros, text="Nome do Quadro a Remover:")
+            label_quadro_remover.pack(pady=5)
+
+            entry_quadro_remover = ctk.CTkEntry(tela_quadros)
+            entry_quadro_remover.pack(pady=5)
+
+            button_excluir_quadro = ctk.CTkButton(tela_quadros, text="Remover Quadro", command=excluir_quadro)
+            button_excluir_quadro.pack(pady=10)
+
+        button_remover_quadro = ctk.CTkButton(tela_quadros, text="Remover Quadro", command=remover_quadro)
+        button_remover_quadro.pack(pady=10)
+
+    def abrir_tela_estatuas():
+        tela_escolha.withdraw()
+        tela_estatuas = ctk.CTkToplevel(tela_escolha)
+        tela_estatuas.title("Gerenciar Estátuas")
+
+        def adicionar_estatua():
+            def salvar_estatua():
+                estatua_nome = entry_estatua_nome.get()
+                preco = entry_preco_estatua.get()
+                try:
+                    cursor.execute("INSERT INTO Estatuas (estatua_nome, preco) VALUES (%s, %s)", (estatua_nome, preco))
+                    conn.commit()
+                    messagebox.showinfo("Sucesso", "Estátua adicionada com sucesso!")
+                    entry_estatua_nome.delete(0, ctk.END)
+                    entry_preco_estatua.delete(0, ctk.END)
+                except Exception as e:
+                    messagebox.showerror("Erro", f"Erro ao adicionar estátua: {e}")
+
+        label_estatua_nome = ctk.CTkLabel(tela_estatuas, text="Nome da Estátua:")
+        label_estatua_nome.pack(pady=5)
+
+        entry_estatua_nome = ctk.CTkEntry(tela_estatuas)
+        entry_estatua_nome.pack(pady=5)
+
+        label_preco_estatua = ctk.CTkLabel(tela_estatuas, text="Preço:")
+        label_preco_estatua.pack(pady=5)
+
+        entry_preco_estatua = ctk.CTkEntry(tela_estatuas)
+        entry_preco_estatua.pack(pady=5)
+
+        button_salvar_estatua = ctk.CTkButton(tela_estatuas, text="Adicionar Estátua", command=adicionar_estatua)
+        button_salvar_estatua.pack(pady=10)
+
+        def ver_estatuas():
+            try:
+                cursor.execute("SELECT estatua_nome, preco FROM Estatuas;")
+                estatuas = cursor.fetchall()
+                estatuas_lista = "\n".join([f"{e[0]} - R${e[1]}" for e in estatuas])
+                messagebox.showinfo("Estátuas", f"Estátuas:\n{estatuas_lista}")
+            except Exception as e:
+                messagebox.showerror("Erro", f"Erro ao ler estátuas: {e}")
+
+        button_ver_estatuas = ctk.CTkButton(tela_estatuas, text="Ver Estátuas", command=ver_estatuas)
+        button_ver_estatuas.pack(pady=10)
+
+        def remover_estatua():
+            def excluir_estatua():
+                estatua_nome = entry_estatua_remover.get()
+                try:
+                    cursor.execute("DELETE FROM Estatuas WHERE estatua_nome=%s", (estatua_nome,))
+                    conn.commit()
+                    messagebox.showinfo("Sucesso", "Estátua removida com sucesso!")
+                    entry_estatua_remover.delete(0, ctk.END)
+                except Exception as e:
+                    messagebox.showerror("Erro", f"Erro ao remover estátua: {e}")
+
+            label_estatua_remover = ctk.CTkLabel(tela_estatuas, text="Nome da Estátua a Remover:")
+            label_estatua_remover.pack(pady=5)
+
+            entry_estatua_remover = ctk.CTkEntry(tela_estatuas)
+            entry_estatua_remover.pack(pady=5)
+
+            button_excluir_estatua = ctk.CTkButton(tela_estatuas, text="Remover Estátua", command=excluir_estatua)
+            button_excluir_estatua.pack(pady=10)
+
+        button_remover_estatua = ctk.CTkButton(tela_estatuas, text="Remover Estátua", command=remover_estatua)
+        button_remover_estatua.pack(pady=10)
+
+    # Botões para escolher entre Estátuas e Quadros
+    button_quadros = ctk.CTkButton(tela_escolha, text="Gerenciar Quadros", command=abrir_tela_quadros)
+    button_quadros.pack(pady=10)
+
+    button_estatuas = ctk.CTkButton(tela_escolha, text="Gerenciar Estátuas", command=abrir_tela_estatuas)
+    button_estatuas.pack(pady=10)
 
 
 # Configurações da janela
@@ -66,7 +216,7 @@ def abrir_tela_principal():
             nova_senha = entry_nova_senha.get()
             try:
                 cursor = conn.cursor()
-                cursor.execute("INSERT INTO usuarios (H, password) VALUES (%s, %s)", (novo_usuario, nova_senha))
+                cursor.execute("INSERT INTO usuarios (usuario_nome, senha) VALUES (%s, %s)", (novo_usuario, nova_senha))
                 conn.commit()
                 messagebox.showinfo("Sucesso", "Usuário criado com sucesso!")
                 entry_novo_usuario.delete(0, ctk.END)
@@ -89,6 +239,8 @@ def abrir_tela_principal():
 
         button_salvar = ctk.CTkButton(tela_criar_usuario, text="Criar Usuário", command=salvar_usuario)
         button_salvar.pack(pady=10)
+
+        tela_criar_usuario.deiconify()
 
     def ler_usuarios():
         try:
@@ -123,6 +275,8 @@ def abrir_tela_principal():
         button_excluir = ctk.CTkButton(tela_deletar_usuario, text="Deletar Usuário", command=excluir_usuario)
         button_excluir.pack(pady=10)
 
+        tela_deletar_usuario.deiconify()
+
     # Layout da tela principal
     button_criar = ctk.CTkButton(tela_principal, text="Criar Usuário", command=criar_usuario)
     button_criar.pack(pady=10)
@@ -142,9 +296,6 @@ def abrir_tela_principal():
     tela_deletar_usuario.title("Deletar Usuário")
     tela_deletar_usuario.withdraw()  # Inicialmente oculta
 
-    # Mostra as telas apropriadas
-    button_criar.configure(command=lambda: (tela_criar_usuario.deiconify(), tela_deletar_usuario.withdraw()))
-    #button_deletar.configure(command=lambda: (tela_deletar_usuario.deiconify(), tela_criar_usuario.withdraw()))
 
 button_editar = ctk.CTkButton(root, text='Editar usuarios', command=abrir_tela_principal)
 button_editar.pack(pady=15)
