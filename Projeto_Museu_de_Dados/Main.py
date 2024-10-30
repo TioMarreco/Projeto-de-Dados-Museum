@@ -53,20 +53,23 @@ def abrir_tela_escolha():
                 except Exception as e:
                     messagebox.showerror("Erro", f"Erro ao adicionar quadro: {e}")
 
-        label_quadro_nome = ctk.CTkLabel(tela_quadros, text="Nome do Quadro:")
-        label_quadro_nome.pack(pady=5)
+            label_quadro_nome = ctk.CTkLabel(tela_quadros, text="Nome do Quadro:")
+            label_quadro_nome.pack(pady=5)
 
-        entry_quadro_nome = ctk.CTkEntry(tela_quadros)
-        entry_quadro_nome.pack(pady=5)
+            entry_quadro_nome = ctk.CTkEntry(tela_quadros)
+            entry_quadro_nome.pack(pady=5)
 
-        label_preço = ctk.CTkLabel(tela_quadros, text="Preço:")
-        label_preço.pack(pady=5)
+            label_preço = ctk.CTkLabel(tela_quadros, text="Preço:")
+            label_preço.pack(pady=5)
 
-        entry_preço = ctk.CTkEntry(tela_quadros)
-        entry_preço.pack(pady=5)
+            entry_preço = ctk.CTkEntry(tela_quadros)
+            entry_preço.pack(pady=5)
 
-        button_salvar_quadro = ctk.CTkButton(tela_quadros, text="Adicionar Quadro", command=adicionar_quadro)
-        button_salvar_quadro.pack(pady=10)
+            buttoon_salvar_quadro = ctk.CTkButton(tela_quadros, text="Salvar quadro", command=salvar_quadro)
+            buttoon_salvar_quadro.pack(pady=10)
+
+        button_adicionar_quadro = ctk.CTkButton(tela_quadros, text="Adicionar Quadro", command=adicionar_quadro)
+        button_adicionar_quadro.pack(pady=10)
 
         def ver_quadros():
             try:
@@ -121,17 +124,21 @@ def abrir_tela_escolha():
                 except Exception as e:
                     messagebox.showerror("Erro", f"Erro ao adicionar estátua: {e}")
 
-        label_estátua_nome = ctk.CTkLabel(tela_estátuas, text="Nome da Estátua:")
-        label_estátua_nome.pack(pady=5)
+            label_estátua_nome = ctk.CTkLabel(tela_estátuas, text="Nome da Estátua:")
+            label_estátua_nome.pack(pady=5)
 
-        entry_estátua_nome = ctk.CTkEntry(tela_estátuas)
-        entry_estátua_nome.pack(pady=5)
+            entry_estátua_nome = ctk.CTkEntry(tela_estátuas)
+            entry_estátua_nome.pack(pady=5)
 
-        label_preço_estátua = ctk.CTkLabel(tela_estátuas, text="Preço:")
-        label_preço_estátua.pack(pady=5)
+            label_preço_estátua = ctk.CTkLabel(tela_estátuas, text="Preço:")
+            label_preço_estátua.pack(pady=5)
 
-        entry_preço_estátua = ctk.CTkEntry(tela_estátuas)
-        entry_preço_estátua.pack(pady=5)
+            entry_preço_estátua = ctk.CTkEntry(tela_estátuas)
+            entry_preço_estátua.pack(pady=5)
+
+            buttoon_salvar_estátua = ctk.CTkButton(tela_estátuas, text="Salvar estátua", command=salvar_estátua)
+            buttoon_salvar_estátua.pack(pady=10)
+
 
         button_salvar_estátua = ctk.CTkButton(tela_estátuas, text="Adicionar Estátua", command=adicionar_estátua)
         button_salvar_estátua.pack(pady=10)
