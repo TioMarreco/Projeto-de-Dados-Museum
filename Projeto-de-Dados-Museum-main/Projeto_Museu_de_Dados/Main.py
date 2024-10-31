@@ -178,12 +178,45 @@ def abrir_tela_escolha():
         button_remover_estátua = ctk.CTkButton(tela_estátuas, text="Remover Estátua", command=remover_estátua)
         button_remover_estátua.pack(pady=10)
 
+    def abrir_tela_fosseis():
+        tela_escolha.withdraw()
+        tela_fosseis = ctk.CTkToplevel(tela_escolha)
+        tela_fosseis.title("Gerenciar fosseis")
+
+        def adicionar_fosseis():
+            def salvar_fosseis():
+                fosseis_nome = entry_fosseis_nome.get()
+                try:
+                    cursor.execute("INSERT INTO fosseis (fosseis_nome) VALUES (%s)", (fosseis_nome,))
+                    conn.commit()
+                    messagebox.showinfo("Sucesso", "Fossel adicionado com sucesso!")
+                    entry_fosseis_nome.delete(0, ctk.END)
+                except Exception as e:
+                    messagebox.showerror("Erro", f"Erro ao adicionar Fossel: {e}")
+            
+            label_fosseis_nome = ctk.CTkLabel(tela_fosseis, text="Nome do Fossel:")
+            label_fosseis_nome.pack(pady=5)
+
+            entry_fosseis_nome = ctk.CTkEntry(tela_fosseis)
+            entry_fosseis_nome.pack(pady=5)
+
+            buttoon_salvar_fosseis = ctk.CTkButton(tela_fosseis, text="Salvar Fossel", command=salvar_fosseis)
+            buttoon_salvar_fosseis.pack(pady=10)
+
+        button_salvar_fosseis = ctk.CTkButton(tela_fosseis, text="Adicionar Fossel", command=adicionar_fosseis)
+        button_salvar_fosseis.pack(pady=10)
+
+
+
     # Botões para escolher entre Estátuas e quadros
     button_quadros = ctk.CTkButton(tela_escolha, text="Gerenciar quadros", command=abrir_tela_quadros)
     button_quadros.pack(pady=10)
 
     button_estátuas = ctk.CTkButton(tela_escolha, text="Gerenciar Estátuas", command=abrir_tela_estátuas)
     button_estátuas.pack(pady=10)
+
+    button_fosseis = ctk.CTkButton(tela_escolha, text="Gerenciar Fosseis", command=abrir_tela_fosseis)
+    button_fosseis.pack(pady=10)
 
 
 # Configurações da janela
